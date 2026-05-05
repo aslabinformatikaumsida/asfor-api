@@ -16,17 +16,17 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'login' => 'required',
+            'email' => 'required',
             'password' => 'required',
         ]);
 
-        $user = User::where('email', $request->login)
-                    ->orWhere('name', $request->login)
+        $user = User::where('email', $request->email)
+                    ->orWhere('name', $request->email)
                     ->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'login' => ['Kredensial yang diberikan salah.'],
+                'email' => ['Kredensial yang diberikan salah.'],
             ]);
         }
 

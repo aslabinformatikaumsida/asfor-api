@@ -34,6 +34,24 @@ class LabController extends Controller
         return $this->successResponse($query->get(), 'Labs retrieved successfully');
     }
 
+    public function store(Request $request)
+    {
+        $user = $request->user();
+        if (!$user->isAdmin() && $user->division !== 'IT Support') {
+            abort(403, 'Unauthorized action. Only IT Support or Admin can create labs.');
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+        ]);
+
+        $lab = Lab::create($validated);
+        $lab->loadCount('inventoryItems');
+
+        return $this->successResponse($lab, 'Lab created successfully', 201);
+    }
+
     public function show(Request $request, Lab $lab)
     {
         $user = $request->user();

@@ -38,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Labs & Inventory
     Route::get('inventory-users', [\App\Http\Controllers\Api\LabController::class, 'getInventoryUsers']);
     Route::post('labs/{lab}/assign-pics', [\App\Http\Controllers\Api\LabController::class, 'assignPics']);
-    Route::apiResource('labs', \App\Http\Controllers\Api\LabController::class)->only(['index', 'show']);
+    Route::apiResource('labs', \App\Http\Controllers\Api\LabController::class)->only(['index', 'show', 'store']);
     Route::apiResource('labs.items', \App\Http\Controllers\Api\InventoryItemController::class)->only(['store', 'update', 'destroy']);
 
     // Events
